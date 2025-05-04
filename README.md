@@ -1,72 +1,60 @@
-# JUnit Máquina de hacer café
+# ☕ JUnit Máquina de hacer café
 
-## El problema
+## 🔍 El problema
 
 Vamos a modelar la forma en la que ésta opera la máquina de café presentada en una tarea anterior, por lo tanto, debemos construir un programa de línea de comandos que simule la operación de la nueva máquina de café. 
 
-Se ha declarado los siguiente:
+---
 
-**Requerimientos de usuario**
+### 📋 Requerimientos de usuario
 
-**Req1: Estado de espera**
+#### ✅ Req1: Estado de espera  
+**Prioridad:** 1  
 
-Prioridad 1
-
-Cuando la máquina de café no está en uso, se encuentra a la “espera” la entrada del usuario. “Hay tres opciones diferentes de entrada del usuario” que se presentan en este estado:
+Cuando la máquina de café no está en uso, se encuentra a la “espera” la entrada del usuario. Hay tres opciones diferentes de entrada del usuario que se presentan en este estado:
 
 - Agregar inventario
 - Verificar inventario
 - Comprar bebida
 
-**Req2: Agregar inventario**
+#### ✅ Req2: Agregar inventario  
+**Prioridad:** 1  
 
-Prioridad 1
-
-El inventario (contenedor de insumos) de la cafetera se puede agregar a la máquina en cualquier momento desde el menú principal, y se agrega a el inventario actual de la máquina de café. Los tipos de inventario son:
+El inventario (contenedor de insumos) de la cafetera se puede agregar en cualquier momento desde el menú principal. Se agrega al inventario actual de la máquina de café. Los tipos de inventario son:
 
 - Café (en polvo)
 - Leche (en polvo)
 - Chocolate (en polvo)
-- Azúcar
-- La máquina tiene un suministro de agua permanente( no considerar).
+- Azúcar  
+- **Nota:** La máquina tiene un suministro de agua permanente (no considerar).  
 
-El inventario se mide en unidades enteras.
+📌 *El inventario se mide en unidades enteras.*  
+📌 *Solo se puede quitar inventario al comprar una bebida.*  
+📌 *Al finalizar una operación, la máquina vuelve al estado de espera.*
 
-El inventario solo se puede quitar de la máquina de café comprando una bebida. Al finalizar una operación la máquina vuelve al estado espera, “menú principal”.
+#### ✅ Req3: Verificar inventario  
+**Prioridad:** 2  
 
-**Req3: Verificar inventario**
+- El inventario se puede comprobar en cualquier momento desde el menú principal.
+- Las unidades de cada insumo son mostradas.
+- Al finalizar, la máquina vuelve al estado de espera.
 
-Prioridad: 2
+#### ✅ Req4: Comprar bebidas  
+**Prioridad:** 1  
 
-El inventario se puede comprobar en cualquier momento desde el menú principal.
+- El usuario selecciona una bebida e inserta una cantidad de dinero (entero).
+- Si el usuario pagó suficiente dinero y la bebida está en las recetas disponibles:
+  - Se entrega la bebida
+  - Se devuelve cualquier cambio
+- Si no hay suficiente inventario o dinero, se cancela la operación y se devuelve el dinero.
 
-Las unidades de cada insumo son mostradas.
+📢 *Mensaje final:* “Su bebida Receta_k está lista”.  
+📌 *La máquina vuelve a su estado de espera.*
 
-Al finalizar, la máquina de café vuelve al estado de espera.
+#### ✅ Req5: Configuración inicial  
+**Prioridad:** 1  
 
-**Req3: Comprar bebidas**
-
-Prioridad 1
-
-El usuario selecciona una bebida e inserta una cantidad de dinero.
-
-El dinero debe ser un entero.
-
-Si la bebida está en dentro de las opciones posibles de “Recetas” y el usuario pagó suficiente dinero, Se dispensará bebida y se devolverá cualquier cambio de dinero.
-
-El usuario no podrá comprar una bebida si no depositan suficiente dinero en la máquina de café.
-
-Se devolverá el dinero si no hay suficiente inventario para hacer la bebida.
-
-Una vez entregada la bebida, mensaje: “Su bebida Receta\_k esta lista”, la máquina de café vuelve a su estado de espera.
-
-**
-
-**Req4: Configuración inicial**
-
-Prioridad 1
-
-La máquina maneja tiene una configuración inicial de sus “Recetas”, estas se componen de:
+La máquina maneja una configuración inicial de sus recetas, que se componen de:
 
 - Nombre de receta
 - Precio
@@ -75,111 +63,125 @@ La máquina maneja tiene una configuración inicial de sus “Recetas”, estas 
 - Unidades de leche
 - Unidades de azúcar
 
-La máquina solo maneja 3 recetas y estas deben ser cargadas antes de la puesta en servicio de la máquina.
+📌 *La máquina solo maneja 3 recetas, cargadas antes de la puesta en servicio.*  
 
-Las recetas son a elección, por ejemplo: 
+📍 **Ejemplo de receta:**  
+- (Café con leche, 500, 2, 0, 4, 2)  
+- Nombre: Café con leche  
+- Precio: 500  
+- Café: 2  
+- Chocolate: 0  
+- Leche: 4  
+- Azúcar: 2  
 
-- (Café con leche, 500, 2, 0, 4, 2)
-  - Nombre de receta: Café con leche
-  - Precio: 500
-  - Unidades de café: 2
-  - Unidades de chocolate: 0
-  - Unidades de leche: 4
-  - Unidades de azúcar: 2
+🔢 **Límites de la máquina:**  
+- Café: 10  
+- Chocolate: 10  
+- Leche: 80  
+- Azúcar: 40  
 
-Los límites de la máquina, o máximos soportados son:
+---
 
-- Max. unidades de café: 10
-- Max. unidades de chocolate: 10
-- Max. unidades de leche: 80
-- Max. unidades de azúcar: 40
-**
+## 📑 Casos de uso
 
+### 🛠 UC1: Agregar inventario
 
-**Casos de uso:**
+**1.1 Condiciones previas:** ninguna  
+**1.2 Flujo principal:**  
+- Se le pedirá al usuario las unidades de cada ingrediente que desea agregar. [E1], [E2]  
+**1.3 Subflujos:** Ninguno  
+**1.4 Flujos alternativos:**  
+- [E1] Si el número es negativo o no entero, se vuelve a solicitar.  
+- [E2] Si el carácter ingresado no es entero, se vuelve a solicitar.
 
-**UC1: Flujo de eventos para el caso de uso “*Agregar inventario”***
+---
 
-1.1 Condiciones previas: ninguna
+### 🛠 UC2: Verificar inventario
 
-1.2 Flujo principal: 
+**2.1 Condiciones previas:** ninguna  
+**2.2 Flujo principal:**  
+- Se muestra la lista del inventario actual.  
+**2.3 Subflujos:** Ninguno  
+**2.4 Flujos alternativos:** Ninguno
 
-Se le pedirá al usuario las unidades de cada uno de los cuatro ingredientes que desea agregar al inventario. [E1] [E2]
+---
 
-1.3 Subflujos: Ninguno
+### 🛠 UC3: Comprar bebida
 
-1.4 Flujos alternativos:
+**3.1 Condiciones previas:** ninguna  
+**3.2 Flujo principal:**  
+- El usuario selecciona la bebida y deposita dinero. [S1], [S2]  
+**3.3 Subflujos:**  
+- [S1] La máquina verifica si hay inventario suficiente. [E1]  
+- [S2] La máquina verifica si se ha depositado suficiente dinero. [E2]  
+**3.4 Flujos alternativos:**  
+- [E1] Si no hay inventario, se cancela la compra y se devuelve el dinero.  
+- [E2] Si el dinero es insuficiente, se devuelve el monto y se regresa al menú.
 
-[E1] Si el usuario selecciona un número que es negativo o que no es entero, se volverá a solicitar al usuario la cantidad.
+---
 
-[E2] Si el usuario ingresa un carácter no entero, se le solicitará nuevamente la cantidad.
+## 👨‍💻 Autor de la solución
 
-**UC2: Flujo de eventos para el caso de uso de “*Verificar inventario”***
+**Diego Aguilera**  
+**RUT:** 201673033-8
 
-2.1 Condiciones previas: ninguna
+---
 
-2.2 Flujo principal: se le mostrará al usuario una lista del inventario de ingredientes en la máquina de café.
+## 📘 Descripción
 
-2.3 Subflujos: Ninguno
+Tarea 4 para la asignatura **INF331 - Pruebas de Software** del Departamento de Informática de la Universidad Técnica Federico Santa María.
 
-2.4 Flujos alternativos: Ninguno
+La aplicación permite:
+- Comprar una de las bebidas ya cargadas en la máquina  
+- Comprobar el inventario de ingredientes  
+- Rellenar el inventario  
 
-**UC3: Flujo de eventos para el caso de uso de “*Comprar de bebida”***
+---
 
-3.1 Condiciones previas: ninguna
+## 🛠 Instalación
 
-3.2 Flujo principal: El usuario seleccionará la bebida que desea comprar. El usuario depositará dinero para pagar la bebida. [S1] [S2]
+Clonar el repositorio e importar como un proyecto **[Maven](https://maven.apache.org/)** con **[Eclipse IDE](https://www.eclipse.org/ide/)**.
 
-3.3 Subflujos:
+---
 
-[S1] La máquina comprobará si hay suficientes ingredientes en el inventario para preparar la bebida seleccionada. [E1]
-
-[S2] La máquina se asegurará de que se haya depositado suficiente dinero [E2], se dispensará la bebida y se realizará cualquier cambio adicional.
-
-3.4 Flujos alternativos:
-
-[E1] Si no hay suficiente inventario para hacer la bebida, se mostrará un mensaje, se devolverá el dinero del usuario y se volverá al menú principal.
-
-[E2] Si el usuario no ingresa suficiente dinero, se le devolverá su dinero y el usuario regresará al menú principal.
-
-
-## Autor de la solución
-
-Diego Aguilera 201673033-8
-
-## Descripción
-
-Tarea 4 para la asignatura INF331 Pruebas de Software del Departamento de Informática de la Universidad Técnica Federico Santa María.
-
-El sistema simula una máquina expendedora de café, donde el usuario puede:
-- Comprar una de las bebidas ya cargadas en la máquina
-- Comprobar el inventario de ingredientes
-- Rellenar el inventario de ingredientes
-## Instalación
-
-Clonar el repositorio y luego importar como un proyecto de [Maven](https://maven.apache.org/) con [Eclipse](https://www.eclipse.org/ide/).
-## Como usar
+## ▶️ Cómo usar
 
 ### Aplicación
 
-Para ejecutar la aplicación, abrir el archivo `Main.java`, ubicado en `src/main/java/tarea/junit/`, luego presionando `Ctrl + F11` o presionando `Run` en el menú `Run`.
+Ejecutar el archivo `Main.java` ubicado en `src/main/java/tarea/junit/` desde Eclipse (`Ctrl + F11` o menú Run → Run).
 
 ### Pruebas
 
-Hay 2 archivos de pruebas que se encuentran en `src/test/java/tarea/junit/`, `CoffeeMakerTest.java` y `MainTest.java`.
+Los archivos de prueba se encuentran en:  
+`src/test/java/tarea/junit/`
 
-`CoffeeMakerTest.java` se enfoca en probar las distintas funcionalidades de la aplicación. Mientras que `MainTest.java` se utiliza para realizar coverage del código.
+- `CoffeeMakerTest.java`: prueba funcionalidades principales  
+- `MainTest.java`: se usa para pruebas de coverage
 
-### Ejecutar pruebas
+---
 
-Primero se recomienda instalar la extensión [EclEmma](https://www.eclemma.org/index.html), luego abrir la ventana "Coverage Configurations" (`Run -> Coverage Configurations...`) y allí crear una nueva configuración para JUnit marcando la opción "Run all tests in the selected project, package or source folder:". Después se aplican los cambios y se presiona el botón "Coverage" ubicado en la esquina inferior derecha de la ventana.
+### ▶️ Ejecutar pruebas
 
-El resultado da un porcentaje de coverage del 97.1% en promedio, dando 99.5% y 98.1% para *CoffeeMaker.java* y *Main.java* respectivamente.
+1. Instalar [EclEmma](https://www.eclemma.org/index.html)  
+2. Ir a "Coverage Configurations" (Run → Coverage Configurations...)  
+3. Crear configuración para JUnit: "Run all tests in the selected project..."  
+4. Aplicar y presionar "Coverage"  
 
-## Cómo contribuir
+📊 **Coverage estimado:**
+- Promedio: 97.1%  
+- `CoffeeMaker.java`: 99.5%  
+- `Main.java`: 98.1%
 
-Cualquier contribución es bienvenida, por favor hacerla a través de una issue en este proyecto.
+---
 
-## Licencia
+## 🤝 Cómo contribuir
 
-Este proyecto está licenciado bajo la [GNU General Public License V3](https://www.gnu.org/licenses/)
+Las contribuciones son bienvenidas. Por favor, crea una **issue** en este proyecto para discutir los cambios.
+
+---
+
+## 📄 Licencia
+
+Este proyecto está licenciado bajo la  
+**[GNU General Public License v3.0](https://www.gnu.org/licenses/)**
+
