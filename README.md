@@ -123,7 +123,6 @@ La máquina maneja una configuración inicial de sus recetas, que se componen de
 ## 👨‍💻 Autor de la solución
 
 **Diego Aguilera**  
-**RUT:** 201673033-8
 
 ---
 
