@@ -161,6 +161,16 @@ Los archivos de prueba se encuentran en:
 
 ### ▶️ Ejecutar pruebas
 
+Con JDK 17 o superior y Maven instalados, ejecutar desde la raíz del proyecto:
+
+```sh
+mvn clean test
+```
+
+Maven descarga JUnit 5 y ejecuta las pruebas mediante Surefire.
+
+Para medir cobertura desde Eclipse:
+
 1. Instalar [EclEmma](https://www.eclemma.org/index.html)  
 2. Ir a "Coverage Configurations" (Run → Coverage Configurations...)  
 3. Crear configuración para JUnit: "Run all tests in the selected project..."  
